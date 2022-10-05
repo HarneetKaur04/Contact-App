@@ -1,0 +1,119 @@
+
+.App {
+  text-align: center;
+}
+
+.Header {
+  position: relative;
+  top: 0; /* Stick it to the top */
+  width: 100%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+}
+
+h2 {
+  margin: 1em 0 0.5em 0;
+	color: #343434;
+	font-size: 36px;
+	line-height: 42px;
+	text-transform: uppercase;
+}
+
+.fa-solid.fa-user-plus.fa-lg {
+margin: 4%;
+}
+
+.fa-solid.fa-user-plus.fa-lg:hover{
+  cursor: pointer;
+  }
+
+.ui.animated.middle.aligned.list{
+text-align: left;
+margin: 8%;
+size: 20px;
+font-size: medium;
+background-color:white;
+padding: 5px 10px;
+border-style:groove;
+border-radius: 5px;
+}
+
+.viewbtn {
+  background-color:rgb(7, 1, 1);
+  color: aliceblue;
+  border-radius: 10px;
+  float: right;
+  cursor: pointer;
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: 2fr 2fr;
+  background-color: black;
+  border-radius: 10px;
+  height:fit-content;
+  padding: 20px 20px;
+  margin: 1.5%;
+  border-style: groove;
+}
+
+.navbar a {
+  color: white;
+  font-size: 20px;
+  font-weight: 500;
+  transition: 0.5s;
+  text-decoration: none;
+}
+.navbar a:hover {
+  transform: scale(1.1);
+  
+}
+
+.navbar button {
+  padding: 10px;
+  outline: none;
+  border: none;
+  font-size: 20px;
+  color: rgb(83, 71, 170);
+  font-weight: 600;
+  background-color: rgba(255, 0, 0, 0.5);
+  box-shadow: 0px 5px 0px 0px rgba(255, 0, 0, 0.25);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: 70ms;
+}
+
+.navbar button:active {
+  transform: translateY(3px);
+  box-shadow: 0px 2px 0px 0px rgba(255, 0, 0, 0.25);
+}
+
+.searchbar {
+  width: 100%;
+}
+
+@media screen and (max-width: 500px) {
+  Header {
+    text-align: center;
+    flex-direction: column;
+  }
+
+  img {
+    width: 100%;
+    height: fit-content;
+    flex-direction: column;
+    overflow: hidden;
+  }
+ 
+  .navbar {
+    grid-template-rows: repeat(4, auto);
+    grid-template-columns: none;
+    grid-row-gap: 20px;
+    padding: 30px 0 30px;
+    background: rgba(242, 171, 95, 0.95);
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+  }
+
+}
+
