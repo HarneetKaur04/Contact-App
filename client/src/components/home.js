@@ -1,11 +1,12 @@
 import React, {useState, useEffect} from 'react'
 import AddContact from './AddContact';
 import ContactList from './ContactList';
+import Header from "./header";
 
 const Home = () => {
-  const [newUserDataDisplay, setNewUserDataDisplay] = useState(false)
-  const [contactsList, setContactsList] = useState([])
 
+  const [contactsList, setContactsList] = useState([])
+ 
 
 
   const newContactData = async (addUserFields) =>{
@@ -15,19 +16,28 @@ const Home = () => {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(addUserFields),
         })
-        .then((response) => {
-            return response.json();
+        .then((response) => {return response.json();
         })
         .then((data) => {
             console.log("From the post request", data);
-            setNewUserDataDisplay(data)
-            setContactsList([...contactsList], data)
-            
+            setContactsList([...contactsList, data])
         })
       }
 
+  const deleteUserDataPassedToParent = async (deleteUserInformationBackFromGrandChild) => {
+      console.log("deleteUserInformationBackFromGrandChild", deleteUserInformationBackFromGrandChild)
+      const deleteId = deleteUserInformationBackFromGrandChild.contact_id
+      console.log("check deleteId", deleteId)
+      await fetch(`http://localhost:5000/api/contacts/${deleteId}`, {method: "DELETE"})
+      .then((response) => response.json())
+      .then((data) => {
+          console.log("Delete Request Complete frontend", data);
+          setContactsList(contactsList.filter((contacts) => contacts.contact_id != deleteId));
+      })
+    }
+
       useEffect(() => {
-        const getContactListToDisplay = () => {
+        const getContactListToDisplay = async () => {
           fetch("http://localhost:5000/api/contacts")
             .then((response) => response.json())
             .then((data) => {
@@ -41,8 +51,9 @@ const Home = () => {
 
   return (
     <div>
+      <Header />
       <AddContact newContactData = {newContactData}/> 
-      <ContactList contactsList={contactsList}/> 
+      <ContactList contactsList={contactsList} deleteUserDataPassedToParent={deleteUserDataPassedToParent} /> 
     </div>
 
   )

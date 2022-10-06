@@ -1,14 +1,28 @@
 import React, {useState, useEffect} from 'react'
+import ContactDetails from './ContactDetails'
+import { Link } from "react-router-dom";
 
-const ContactList = ({contactsList}) => {
+const ContactList = ({contactsList, deleteUserDataPassedToParent}) => {
 console.log("contactsList prop details = " , contactsList)
+
+const [userDetails, setUserDetails] = useState()
+
+
+const handleDetailsButton = (contactInfo) => {
+    setUserDetails(contactInfo)
+    console.log("check which contact selected for details",userDetails )
+}
 
 
     
 
   return (
     <div>
-
+{userDetails? 
+            (<>
+            <ContactDetails userDetails={userDetails} deleteUserDataPassedToParent={deleteUserDataPassedToParent}/>
+            </>
+) : null }
         <div role="list" className="ui animated middle aligned list"> 
         {contactsList.map((contact) => (   
             <div key ={contact.contact_id} role="listitem" className="item">
@@ -16,11 +30,14 @@ console.log("contactsList prop details = " , contactsList)
                 <div className="content">
                     <div className="header">{contact.name}</div>
                 </div>
-                <button className='viewbtn'>Details</button>
-            </div>                       
+                <button className='viewbtn' onClick={()=> handleDetailsButton(contact)}>Details</button>
+                
+            </div>                                
         )
         )}
         </div>
+        
+        
         
     </div>
   )

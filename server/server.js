@@ -45,20 +45,31 @@ app.post('/api/contacts', cors(), async (req, res) => {
   res.json(result.rows[0]);
 });
 
+// get request for delete ID
+app.get('/api/contacts/:deleteId', cors(), async (req, res) => {
+  const deleteId= req.params.deleteId;
+  try {
+    const { rows: contacts } = await db.query('SELECT * FROM contacts where contact_id=$1', [deleteId]);
+    res.send(contacts);
+  } catch (e) {
+    console.log(e)
+    return res.status(400).json({ e });
+  }
+    })
 
 // delete request
-// app.delete('/api/users/:deleteEmail', cors(), async (req, res) => {
-//   const deleteEmail = req.params.deleteEmail;
+app.delete('/api/contacts/:deleteId', cors(), async (req, res) => {
+  const deleteId= req.params.deleteId;
 
-//   console.log("Delete City Name " ,deleteEmail);
-//   try {
-//     await db.query("DELETE FROM users WHERE email=$1", [deleteEmail]);
-//     res.send({ status: "success" });
-//     } catch (e) {
-//       console.log(e)
-//     return res.status(400).json({ e });
-//     }
-//     })
+  console.log("Delete Contact Details" ,deleteId);
+  try {
+    await db.query('DELETE FROM contacts WHERE contact_id=$1', [deleteId]);
+    res.send({ status: "success" });
+    } catch (e) {
+      console.log(e)
+    return res.status(400).json({ e });
+    }
+    })
 
 // console.log that your server is up and running
 app.listen(PORT, () => {

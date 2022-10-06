@@ -23,7 +23,6 @@ const AddContact = (props) => {
         props.newContactData(addUserFields);
         // setAddUserFields({name:"", email:"", phone: "", notes:"", image:""})
         setAddContactForm(false)
-        navigate('/');
     }
    
   return (
