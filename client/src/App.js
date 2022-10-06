@@ -2,7 +2,7 @@ import "./App.css";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/navbar"
 import Home from "./components/home"
-import ContactDetails from "./components/ContactDetails";
+import LikedContact from "./components/LikedContact";
 
 function App() {
   return (
@@ -12,7 +12,7 @@ function App() {
         <Navbar />
         <Routes>
           <Route path='/' element={<Home/>} />
-          <Route path='/Details' element={<ContactDetails/>}/>
+          <Route path='/favorites' element={<LikedContact/>}/>
         </Routes>
       </Router>
     </div>

@@ -1,16 +1,31 @@
-import React from 'react'
-import {useNavigate} from "react-router-dom"
+import React, { useState } from 'react'
+import {useNavigate} from 'react-router-dom';
 
-const ContactDetails = ({userDetails, deleteUserDataPassedToParent}) => {
+const ContactDetails = ({userDetails, deleteUserDataPassToParent}) => {
     const navigate = useNavigate();
-    console.log("contactInfo" , userDetails)
 
-
-    const handleDeleteContact = (deleteUserData)=> {
+    const handleDeleteContact = async (deleteUserData)=> {
         console.log("deleteUserData = ", deleteUserData)
-        deleteUserDataPassedToParent(deleteUserData)
-        window.location.reload()
-    }
+        deleteUserDataPassToParent(deleteUserData)
+      }
+
+    const handleFavoriteContact = async (saveUserFavorite)=> { 
+        console.log("saveUserFavorite = ", saveUserFavorite)
+        const id = saveUserFavorite.contact_id
+        return await fetch(`http://localhost:5000/api/favorites/${id}`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(saveUserFavorite),
+        })
+        .then((response) => {return response.json();
+        })
+        .then((data) => {
+            console.log("From the post request", data);
+            navigate('/favorites')
+        })
+        
+     }
+     
   return (
   <>
     <div className="card">
@@ -26,6 +41,9 @@ const ContactDetails = ({userDetails, deleteUserDataPassedToParent}) => {
         </button>
         <button class="ui yellow button" >
             <i class="edit large icon"></i>
+        </button>
+        <button class="ui pink button" onClick={()=>handleFavoriteContact(userDetails)}>{userDetails.favorite == true? "Unlike" : "Like"}
+            <i class="heart large icon"></i>
         </button>
     </div>
   </>

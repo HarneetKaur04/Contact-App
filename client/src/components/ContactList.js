@@ -2,25 +2,38 @@ import React, {useState, useEffect} from 'react'
 import ContactDetails from './ContactDetails'
 import { Link } from "react-router-dom";
 
-const ContactList = ({contactsList, deleteUserDataPassedToParent}) => {
+const ContactList = ({contactsList}) => {
 console.log("contactsList prop details = " , contactsList)
-
-const [userDetails, setUserDetails] = useState()
+const [userDetailsStart, setUserDetailsStart] = useState(false)
+const [userDetails, setUserDetails] = useState([])
 
 
 const handleDetailsButton = (contactInfo) => {
+    console.log("contactInfo". contactInfo)
     setUserDetails(contactInfo)
-    console.log("check which contact selected for details",userDetails )
+    setUserDetailsStart(true)
 }
+console.log("check which contact selected for details", userDetails)
 
-
+const deleteUserDataPassToParent = async (deleteUserData) => {
+    const deleteId = deleteUserData.contact_id
+      console.log("check deleteId", deleteId)
+      await fetch(`http://localhost:5000/api/contacts/${deleteId}`, {method: "DELETE"})
+      .then((response) => response.json())
+      .then((data) => {
+          console.log("Delete Request Complete frontend", data);
+    })
+    contactsList.filter(user => user.contact_id != deleteId)
+    setUserDetailsStart(false)
+    window.location.reload()
+}
     
 
   return (
     <div>
-{userDetails? 
+{userDetailsStart? 
             (<>
-            <ContactDetails userDetails={userDetails} deleteUserDataPassedToParent={deleteUserDataPassedToParent}/>
+            <ContactDetails userDetails={userDetails} deleteUserDataPassToParent={deleteUserDataPassToParent}/>
             </>
 ) : null }
         <div role="list" className="ui animated middle aligned list"> 

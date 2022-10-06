@@ -23,7 +23,7 @@ app.get('/', (req, res) => {
 
 app.get('/api/contacts', cors(), async (req, res) => {
   try {
-    const { rows: contacts } = await db.query('SELECT * FROM contacts');
+    const { rows: contacts } = await db.query('SELECT * FROM contacts ORDER BY contact_id');
     res.send(contacts);
   } catch (e) {
     console.log(e)
@@ -70,6 +70,51 @@ app.delete('/api/contacts/:deleteId', cors(), async (req, res) => {
     return res.status(400).json({ e });
     }
     })
+
+
+    app.get('/api/favorites', cors(), async (req, res) => {
+      try {
+        const { rows: contacts } = await db.query('SELECT * FROM contacts where favorite = true');
+        res.send(contacts);
+      } catch (e) {
+        console.log(e)
+        return res.status(400).json({ e });
+      }
+    });
+    
+    app.get('/api/favorites/:id', cors(), async (req, res) => {
+      const favUserId = req.params.id
+      console.log("Checking favUserId at backend" , favUserId);
+    
+      const { rows: contacts } = await db.query(
+        'SELECT * FROM contacts where contact_id = $1',[favUserId]
+      );
+      res.send(contacts);
+    });
+    
+    // create the POST request
+    app.post('/api/favorites/:id', cors(), async (req, res) => {
+      const favUserId = req.params.id
+      console.log("Checking favUserId at backend:" , favUserId);
+    
+      const result = await db.query(
+        `UPDATE contacts SET favorite = NOT favorite WHERE contact_id= $1`, [favUserId]
+      );
+      console.log("Checking favUserId posted at database", result);
+      res.status(200).json(result.rows)
+    });
+
+    // Post request for not favorite
+    // app.post('/api/favorites/:id', cors(), async (req, res) => {
+    //   const notFavUserId = req.params.id
+    //   console.log("Checking favUserId at backend:" , notFavUserId);
+    
+    //   const result = await db.query(
+    //     `UPDATE contacts SET favorite = 'false' WHERE contact_id= $1`, [notFavUserId]
+    //   );
+    //   console.log("Checking favUserId posted at database", result);
+    //   res.json(result.rows[0]);
+    // });
 
 // console.log that your server is up and running
 app.listen(PORT, () => {

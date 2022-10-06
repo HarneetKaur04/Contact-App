@@ -24,17 +24,6 @@ const Home = () => {
         })
       }
 
-  const deleteUserDataPassedToParent = async (deleteUserInformationBackFromGrandChild) => {
-      console.log("deleteUserInformationBackFromGrandChild", deleteUserInformationBackFromGrandChild)
-      const deleteId = deleteUserInformationBackFromGrandChild.contact_id
-      console.log("check deleteId", deleteId)
-      await fetch(`http://localhost:5000/api/contacts/${deleteId}`, {method: "DELETE"})
-      .then((response) => response.json())
-      .then((data) => {
-          console.log("Delete Request Complete frontend", data);
-          setContactsList(contactsList.filter((contacts) => contacts.contact_id != deleteId));
-      })
-    }
 
       useEffect(() => {
         const getContactListToDisplay = async () => {
@@ -53,7 +42,7 @@ const Home = () => {
     <div>
       <Header />
       <AddContact newContactData = {newContactData}/> 
-      <ContactList contactsList={contactsList} deleteUserDataPassedToParent={deleteUserDataPassedToParent} /> 
+      <ContactList contactsList={contactsList}  /> 
     </div>
 
   )
