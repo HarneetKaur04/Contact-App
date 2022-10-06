@@ -4,7 +4,7 @@ import {useNavigate} from "react-router-dom"
 const AddContact = (props) => {
     const navigate = useNavigate();
     const [addContactForm, setAddContactForm] = useState(false)
-    const [addUserFields, setAddUserFields] = useState({name:"", email:"", phone: "", notes:"", image:""})
+    const [addUserFields, setAddUserFields] = useState({name:"", email:"", phone: "", notes:"", image:"" , favorite: false})
 
     const handleAddUser = () => {
         setAddContactForm(true)

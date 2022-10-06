@@ -1,6 +1,5 @@
 import React, {useState, useEffect} from 'react'
 import ContactDetails from './ContactDetails'
-import { Link } from "react-router-dom";
 
 const ContactList = ({contactsList}) => {
 console.log("contactsList prop details = " , contactsList)

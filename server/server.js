@@ -34,12 +34,12 @@ app.get('/api/contacts', cors(), async (req, res) => {
 
 // create the POST request
 app.post('/api/contacts', cors(), async (req, res) => {
-  const newUser = {name: req.body.name, email: req.body.email, phone: req.body.phone, notes: req.body.notes, image: req.body.image}
-  console.log("Checking newUser at backend" ,[newUser.name, newUser.email, newUser.phone, newUser.notes, newUser.image]);
+  const newUser = {name: req.body.name, email: req.body.email, phone: req.body.phone, notes: req.body.notes, image: req.body.image, favorite: req.body.favorite}
+  console.log("Checking newUser at backend" ,[newUser.name, newUser.email, newUser.phone, newUser.notes, newUser.image, newUser.favorite]);
 
   const result = await db.query(
-    'INSERT INTO contacts(name, email, phone, notes, image) VALUES($1, $2, $3, $4, $5) RETURNING *',
-    [newUser.name, newUser.email, newUser.phone, newUser.notes, newUser.image],
+    'INSERT INTO contacts(name, email, phone, notes, image, favorite) VALUES($1, $2, $3, $4, $5, $6) RETURNING *',
+    [newUser.name, newUser.email, newUser.phone, newUser.notes, newUser.image, newUser.favorite],
   );
   console.log("Checking newUser posted at database", result.rows[0]);
   res.json(result.rows[0]);
